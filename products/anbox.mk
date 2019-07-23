@@ -30,7 +30,7 @@ PRODUCT_PACKAGES += \
 	camera.goldfish \
 	camera.goldfish.jpeg \
 	lights.goldfish \
-	gps.goldfish \
+	gps \
 	fingerprint.goldfish \
 	sensors.goldfish \
 	audio.primary.goldfish \
@@ -68,6 +68,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.hardware=goldfish \
 	ro.hardware.hwcomposer=anbox \
+	# Define GPS driver settings
+	ro.kernel.android.gps=ttyACM0 \
+	ro.kernel.android.gpsttybaud=115200 |
 	ro.kernel.qemu.gles=1 \
 	ro.kernel.qemu=1
 	ro.adb.qemud=1

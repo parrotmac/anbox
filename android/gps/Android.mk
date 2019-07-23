@@ -1,47 +1,20 @@
-# Copyright (C) 2010 The Android Open Source Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-
-# We're moving the emulator-specific platform libs to
-# development.git/tools/emulator/. The following test is to ensure
-# smooth builds even if the tree contains both versions.
-#
+# Copyright (C) 2011 The Android-x86 Open Source Project
 
 LOCAL_PATH := $(call my-dir)
 
-# HAL module implemenation stored in
-# hw/<GPS_HARDWARE_MODULE_ID>.<ro.hardware>.so
+# HAL module implemenation, not prelinked and stored in
+# hw/<OVERLAY_HARDWARE_MODULE_ID>.<ro.product.board>.so
 include $(CLEAR_VARS)
-
+LOCAL_PRELINK_MODULE := false
 LOCAL_MODULE_RELATIVE_PATH := hw
-LOCAL_CFLAGS += -DQEMU_HARDWARE
-LOCAL_SHARED_LIBRARIES := liblog libcutils libhardware
-LOCAL_SRC_FILES := gps_qemu.c
-ifeq ($(TARGET_PRODUCT),vbox_x86)
-LOCAL_MODULE := gps.vbox_x86
+LOCAL_SHARED_LIBRARIES := liblog libcutils
+LOCAL_MODULE := gps
+LOCAL_SRC_FILES := gps.c
+
+ifeq ($(wildcard $(LOCAL_PATH)/power-$(TARGET_PRODUCT).c),)
+LOCAL_SRC_FILES += power-stub.c
 else
-LOCAL_MODULE := gps.goldfish
+LOCAL_SRC_FILES += power-$(TARGET_PRODUCT).c
 endif
-include $(BUILD_SHARED_LIBRARY)
-
-
-include $(CLEAR_VARS)
-
-LOCAL_MODULE_RELATIVE_PATH := hw
-LOCAL_CFLAGS += -DQEMU_HARDWARE
-LOCAL_SHARED_LIBRARIES := liblog libcutils libhardware
-LOCAL_SRC_FILES := gps_qemu.c
-LOCAL_MODULE := gps.ranchu
 
 include $(BUILD_SHARED_LIBRARY)

@@ -11,7 +11,7 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic -Wno-variadic-macros -Wextra -fPIC")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -lm -ldl -pedantic -Wno-variadic-macros -Wextra -fPIC")
 
 # By default, all symbols are visible in the library. We strip out things we don't
 # want at link time, by running a version script (see unity-scopes.map and the
